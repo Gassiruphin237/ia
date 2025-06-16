@@ -12,7 +12,10 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const [show, setShow] = useState(false);
+    const change = () => {
+        setShow(true)
+    }
     const handleClick = async (e) => {
         e.preventDefault();
 
@@ -22,12 +25,12 @@ function Login() {
         }
 
         setLoading(true);
-        console.log(email,password)
+        console.log(email, password)
         try {
             const data = await login(email, password);
             showSuccess(data.message || `Bienvenue ${email} !`);
             console.log(data)
-                  localStorage.setItem('token', data.token);
+            localStorage.setItem('token', data.token);
         } catch (error) {
             showError(error.message);
             console.log(error.message)
@@ -59,11 +62,11 @@ function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             type='password'
                         />
-                        <CustomButton
+                        {show ? <CustomButton
                             label={loading ? "Connexion ..." : "Se connecter"}
                             onClick={handleClick}
                             disabled={loading}
-                        />
+                        /> : "text"}
                     </form>
                 </div>
             </div>
